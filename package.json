@@ -4,19 +4,20 @@
   "repository": "https://github.com/abemscac/react-slice-context",
   "private": false,
   "version": "1.0.1",
-  "type": "module",
+  "type": "commonjs",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "files": [
+    "/dist"
+  ],
   "scripts": {
     "build": "tsc",
     "format": "prettier --check \"{**/*,*}.{ts,tsx}\"",
     "test": "vitest run"
   },
-  "dependencies": {
-    "react": "16.8.4"
-  },
   "peerDependencies": {
-    "react": ">= 16.8.4"
+    "react": ">= 16.8.4",
+    "react-dom": ">= 16.8.4"
   },
   "devDependencies": {
     "@types/react": "16.8.4",
