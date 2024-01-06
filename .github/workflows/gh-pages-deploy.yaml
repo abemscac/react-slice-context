@@ -1,0 +1,28 @@
+name: GhPages Deploy
+on:
+  push:
+    branches: [main]
+permissions:
+  contents: write
+jobs:
+  build-and-deploy:
+    name: Build and deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout out repository code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+      - name: Install Node packages
+        run: yarn install && cd example && yarn install
+      - name: Build
+        run: yarn build
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@v4.5.0
+        with:
+          branch: gh-pages
+          folder: dist/

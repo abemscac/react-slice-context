@@ -1,5 +1,9 @@
 # React Slice Context 🍕
 
+![npm bundle size](https://img.shields.io/bundlephobia/minzip/react-slice-context)
+![npm](https://img.shields.io/npm/v/react-slice-context)
+![GitHub last commit (branch)](https://img.shields.io/github/last-commit/abemscac/react-slice-context/main)
+
 `react-slice-context` is a lightweight, performant, proxy-based state management library for React, built on the concept of slices and leveraging the power of React hooks. It provides a simple and flexible way to manage state in your React applications.
 
 ## Table of Contents
@@ -137,7 +141,7 @@ const { useContext: usePizzaContext } = createSliceContext({
 })
 ```
 
-In the following component, only the `price` from `pizzaContext` is relevant:
+In the following component, only the `price` from `pizzaContext` is relevant, but the change of `pizzaContext.flavor` will still cause this component to re-render:
 
 ```tsx
 const MyComponent = () => {
@@ -227,11 +231,25 @@ The `dispatch` object returned by `createSliceContext(options)` is a set of disp
 
 ### State Is Read-Only
 
-The value returned by `useContext(selector)` is read-only. Attempting to update the context value without using the corresponding dispatch functions will trigger a warning in the console, and no changes will be applied to the context.
+**The value returned by `useContext(selector)` is read-only**. Attempting to update the context value without using the corresponding dispatch functions will trigger a warning in the console, and **no changes will be applied** to the context. Trying to execute code similar to the following example will result in a warning:
+
+```tsx
+const MyComponent = () => {
+  const pizza = usePizzaContext()
+
+  const raisePrice = () => {
+    // Invalid: this will generate a warning in the console,
+    // and `pizza.price` will remain unchanged.
+    pizza.price += 5
+  }
+
+  return <div>...</div>
+}
+```
 
 ## Update Context Value Outside of Components
 
-To update the context value outside of components, you can use the functions declared in the dispatcher, just as you would when updating the context value inside components. For example:
+To update context value outside of components, you can use the functions declared in the dispatcher, just as you would when updating the context value inside components. For example:
 
 ```ts
 // Context
@@ -254,7 +272,7 @@ authDispatch.setToken('...')
 
 ## Get Context Value Outside of Components
 
-To access the context value outside of components, you can simply utilize the `getState()` function provided by `createSliceContext(options)`. For example:
+To get context value outside of components, you can simply utilize the `getState()` function provided by `createSliceContext(options)`. For example:
 
 ```ts
 // Context
@@ -289,11 +307,11 @@ const { useContext: usePizzaContext } = createSliceContext({
 
 // Component
 const MyComponent = () => {
-  // Incorrect; `price` will not be reactive.
+  // Incorrect: `price` will not be reactive.
   const { price } = usePizzaContext()
-  // Incorrect; `price` will not be reactive.
+  // Incorrect: `price` will not be reactive.
   const { price } = usePizzaContext((state) => state)
-  // Incorrect; `price` will not be reactive.
+  // Incorrect: `price` will not be reactive.
   const price = usePizzaContext().price
 
   // Correct!
