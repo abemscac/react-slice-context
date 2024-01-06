@@ -1,6 +1,6 @@
 {
   "name": "react-slice-context",
-  "description": "A lightweight React library for achieving optimal performance without any external dependencies.",
+  "description": "A a lightweight, performant, proxy-based state management library for React without any external dependencies.",
   "repository": "https://github.com/abemscac/react-slice-context",
   "private": false,
   "version": "1.0.0",
