@@ -1,9 +1,9 @@
 import { FormEvent, useRef } from 'react'
-import { useTodoContext } from '../contexts/todo-context'
+import { todoDispatch } from '../contexts/todo-context'
 import { RenderCount } from './RenderCount'
 
 export const TodoDispatch = () => {
-  const { addTask, clear } = useTodoContext((_, dispatch) => dispatch)
+  const { addTask, clear } = todoDispatch
 
   const input = useRef<HTMLInputElement>(null)
 
@@ -23,7 +23,7 @@ export const TodoDispatch = () => {
       <RenderCount />
       <h2>Todo Dispatch</h2>
       <p>
-        This component will not re-render, regardless of changes in the{' '}
+        This component never re-renders, regardless of changes in the{' '}
         <code>TodoContext</code>, because it doesn't subscribe to any state from{' '}
         <code>TodoContext</code>.
       </p>

@@ -9,31 +9,29 @@ export type ITask = {
   done: boolean
 }
 
-export const { useContext: useTodoContext } = createSliceContext({
-  state: () => {
-    const state: ITodoState = {
+export const { useContext: useTodoContext, dispatch: todoDispatch } =
+  createSliceContext({
+    state: (): ITodoState => ({
       tasks: [],
-    }
-    return state
-  },
-  dispatch: (state) => ({
-    addTask: (name: string): void => {
-      state.tasks.push({
-        name,
-        done: false,
-      })
-    },
-    toggleDone: (index: number): void => {
-      const task = state.tasks[index]
-      if (task) {
-        task.done = !task.done
-      }
-    },
-    removeTask: (index: number): void => {
-      state.tasks.splice(index, 1)
-    },
-    clear: () => {
-      state.tasks = []
-    },
-  }),
-})
+    }),
+    dispatch: (state) => ({
+      addTask: (name: string): void => {
+        state.tasks.push({
+          name,
+          done: false,
+        })
+      },
+      toggleDone: (index: number): void => {
+        const task = state.tasks[index]
+        if (task) {
+          task.done = !task.done
+        }
+      },
+      removeTask: (index: number): void => {
+        state.tasks.splice(index, 1)
+      },
+      clear: () => {
+        state.tasks = []
+      },
+    }),
+  })

@@ -1,10 +1,10 @@
-import { ITask, useTodoContext } from '../contexts/todo-context'
+import { ITask, todoDispatch, useTodoContext } from '../contexts/todo-context'
 import { RenderCount } from './RenderCount'
 
 export const TodoTasks = () => {
   const tasks = useTodoContext((state) => state.tasks)
 
-  const { toggleDone, removeTask } = useTodoContext((_, dispatch) => dispatch)
+  const { toggleDone, removeTask } = todoDispatch
 
   const renderTask = (task: ITask, index: number) => (
     <li key={task.name} className={task.done ? 'task-done' : undefined}>
