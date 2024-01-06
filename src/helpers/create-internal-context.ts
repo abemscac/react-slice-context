@@ -23,6 +23,7 @@ export const createInternalContext = <
   const changeDetectionState = changeDetectionProxy(state, () => {
     hasChanged = true
   })
+
   /**
    * Read-only state that's exposed to the user.
    */
@@ -37,6 +38,11 @@ export const createInternalContext = <
 
   const sourceDispatch = dispatchInit(changeDetectionState)
 
+  /**
+   * Creates a constant dispatcher and ensure it triggers listeners
+   * whenever there is a change in any of the values after any
+   * function within the dispatcher is executed.
+   */
   const dispatch = Object.entries(sourceDispatch).reduce(
     (result, [key, dispatchFn]) => {
       result[key] = (...args: any[]): any => {

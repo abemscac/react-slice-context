@@ -25,13 +25,13 @@ export const createSliceContext = <
     internalContext
   )
 
-  const useContext = <T>(selector?: ISelector<State, Dispatch, T>) => {
+  const useContext = <T>(selector?: ISelector<State, T>) => {
     return useContextHook(selector)
   }
 
   return {
     useContext,
-    getState: internalContext.getReadonlyState,
     dispatch: internalContext.dispatch,
+    getState: internalContext.getReadonlyState,
   }
 }

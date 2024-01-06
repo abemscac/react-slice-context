@@ -10,18 +10,17 @@ export const createUseContextHook = <
   T,
 >(
   internalContext: IInternalContext<State, Dispatch>
-): IUseContext<State, Dispatch, T> => {
-  return (selector?: ISelector<State, Dispatch, T>) => {
+): IUseContext<State, T> => {
+  return (selector?: ISelector<State, T>) => {
     const computeValue = (): T => {
-      const dispatch = internalContext.dispatch
       if (selector) {
         const readonlyState = internalContext.getReadonlyState()
-        return selector(readonlyState, dispatch)
+        return selector(readonlyState)
       } else {
         const state = internalContext.getState()
         if (state !== undefined && state !== null) {
           // Returns a new proxy of the state to make sure the
-          // component still re-renders when changes occur when
+          // component still re-renders when changes occur if
           // `selector` is not provided.
           return readonlyProxy(state) as unknown as T
         } else {

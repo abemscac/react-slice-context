@@ -1,16 +1,16 @@
-import { useUserContext } from '../contexts/user-context'
+import { usePizzaContext } from '../contexts/pizza-context'
 import { RenderCount } from './RenderCount'
 
-export const User = () => {
-  const user = useUserContext()
+export const Pizza = () => {
+  const pizza = usePizzaContext()
 
   return (
     <div className="section">
       <RenderCount />
-      <h2>User: {JSON.stringify(user)}</h2>
+      <h2>Pizza: {JSON.stringify(pizza)}</h2>
       <p>
         This component will re-render whenever there's a change in{' '}
-        <code>UserContext</code>.
+        <code>PizzaContext</code>.
       </p>
     </div>
   )
