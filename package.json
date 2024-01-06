@@ -6,7 +6,7 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "build": "tsc && vite build",
+    "build": "tsc",
     "format": "prettier --check \"{**/*,*}.{ts,tsx}\"",
     "test": "vitest run"
   },
@@ -17,13 +17,9 @@
     "react": ">= 16.8.4"
   },
   "devDependencies": {
-    "@rollup/plugin-typescript": "^11.1.5",
     "@types/react": "16.8.4",
-    "@vitejs/plugin-react": "^4.2.1",
     "prettier": "^3.1.1",
-    "tslib": "^2.6.2",
     "typescript": "^5.2.2",
-    "vite": "^5.0.8",
     "vitest": "^1.1.3"
   }
 }
