@@ -21,7 +21,7 @@
 
 ## Requirements
 
-To use this library, make sure your React version is **16.8.4 or later**, as hooks were introduced in React 16.8.
+To use this library, make sure your `react` and `react-dom` versions are both **16.8.4 or later**, as hooks were introduced in React 16.8.
 
 ## Installation
 
