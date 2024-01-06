@@ -11,6 +11,8 @@
 - [API](#api)
 - [Optimization](#optimization)
 - [Dispatch](#dispatch)
+- [Update Context Value Outside of Components](#update-context-value-outside-of-components)
+- [Get Context Value Outside of Components](#get-context-value-outside-of-components)
 - [Common Mistakes](#common-mistakes)
 
 ## Demo and Example Projects
@@ -227,7 +229,7 @@ The `dispatch` object returned by `createSliceContext(options)` is a set of disp
 
 The value returned by `useContext(selector)` is read-only. Attempting to update the context value without using the corresponding dispatch functions will trigger a warning in the console, and no changes will be applied to the context.
 
-### Update Context Value Outside of Components
+## Update Context Value Outside of Components
 
 To update the context value outside of components, you can use the functions declared in the dispatcher, just as you would when updating the context value inside components. For example:
 
@@ -287,11 +289,11 @@ const { useContext: usePizzaContext } = createSliceContext({
 
 // Component
 const MyComponent = () => {
-  // Incorrect
+  // Incorrect; `price` will not be reactive.
   const { price } = usePizzaContext()
-  // Incorrect
+  // Incorrect; `price` will not be reactive.
   const { price } = usePizzaContext((state) => state)
-  // Incorrect
+  // Incorrect; `price` will not be reactive.
   const price = usePizzaContext().price
 
   // Correct!

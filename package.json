@@ -1,9 +1,16 @@
 {
   "name": "react-slice-context",
   "description": "A a lightweight, performant, proxy-based state management library for React without any external dependencies.",
+  "keywords": [
+    "react",
+    "redux",
+    "store",
+    "state-management",
+    "proxy"
+  ],
   "repository": "https://github.com/abemscac/react-slice-context",
   "private": false,
-  "version": "1.0.3",
+  "version": "1.0.4",
   "type": "commonjs",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
