@@ -3,8 +3,10 @@
   "description": "A a lightweight, performant, proxy-based state management library for React without any external dependencies.",
   "repository": "https://github.com/abemscac/react-slice-context",
   "private": false,
-  "version": "1.0.0",
+  "version": "1.0.1",
   "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
     "format": "prettier --check \"{**/*,*}.{ts,tsx}\"",
