@@ -1,6 +1,7 @@
 {
   "name": "react-slice-context",
   "description": "A a lightweight, performant, proxy-based state management library for React without any external dependencies.",
+  "license": "MIT",
   "keywords": [
     "react",
     "redux",
@@ -10,7 +11,7 @@
   ],
   "repository": "https://github.com/abemscac/react-slice-context",
   "private": false,
-  "version": "1.0.5",
+  "version": "1.0.6",
   "type": "commonjs",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
