@@ -18,6 +18,7 @@
 - [Update Context Value Outside of Components](#update-context-value-outside-of-components)
 - [Get Context Value Outside of Components](#get-context-value-outside-of-components)
 - [Common Mistakes](#common-mistakes)
+- [Benchmark](#benchmark)
 
 ## Demo and Example Projects
 
@@ -77,10 +78,16 @@ npm install react-slice-context
 
    ```ts
    // Either export and rename them after declaration.
-   export { useContext: usePizzaContext, dispatch: pizzaDispatch } = pizzaContext
+   const pizzaContext = createSliceContext({ ... })
+   export const { useContext: usePizzaContext, dispatch: pizzaDispatch } = pizzaContext
 
-   // ...or make it a one-liner.
-   export { useContext: usePizzaContext, dispatch: pizzaDispatch } = createSliceContext({ ... })
+   // ...or do it all at once.
+   export const {
+     useContext: usePizzaContext,
+     dispatch: pizzaDispatch,
+   } = createSliceContext({
+     ...
+   })
    ```
 
 4. Use the exported `usePizzaContext` (formerly `useContext`) and `pizzaDispatch` (formerly `dispatch`) to access the state and dispatcher within your components:
@@ -122,11 +129,11 @@ npm install react-slice-context
 
    It returns a slice context with the following properties:
 
-   | Property               | Type     | Description                                                                                                                                                                                                                                                                                                                                                                        |
-   | ---------------------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-   | `useContext(selector)` | function | By default, `useContext()` returns the entire state, which will cause the component to re-render whenever there's a change in the context. If your component only care about specific context properties, using something like `const state = useMyContext()` may not deliver optimal performance. Check out the [Optimization](#optimization) section below for further insights. |
-   | `dispatch`             | object   | The dispatcher for the slice context. It works both inside and outside of components. See the [Dispatch](#dispatch) section below for more information.                                                                                                                                                                                                                            |
-   | `getState()`           | function | Returns a read-only state in the slice context. This is useful for getting context state outside of components.                                                                                                                                                                                                                                                                    |
+   | Property               | Type     | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+   | ---------------------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+   | `useContext(selector)` | function | `useContext(selector)` is a **hook** to retrieve the state of the associated context; it can only be used within the body of a React functional component. By default, when the optional `selector` argument is not provided, `useContext()` returns the entire state, which will cause the component to re-render whenever there's a change in the context. If your component only care about specific context properties, using something like `const state = useMyContext()` may not deliver optimal performance. Check out the [Optimization](#optimization) section below for further insights. |
+   | `dispatch`             | object   | The dispatcher for the slice context. It works both inside and outside of components. See the [Dispatch](#dispatch) section below for more information.                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+   | `getState()`           | function | Returns a read-only state in the slice context. This is useful for getting context state outside of components.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
 
 ## Optimization
 
@@ -320,3 +327,7 @@ const MyComponent = () => {
   return <div>...</div>
 }
 ```
+
+## Benchmark
+
+🚧 Work in progress 🚧
