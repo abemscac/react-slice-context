@@ -8,7 +8,7 @@
 
 ## Table of Contents
 
-- [Demo and Example Projects](#demo-and-example-projects)
+- [Demo and Examples](#demo-and-examples)
 - [Requirements](#requirements)
 - [Installation](#installation)
 - [Getting Started](#getting-started)
