@@ -25,6 +25,12 @@ export const TodoTasks = () => {
         This component will re-render whenever there are changes in the{' '}
         <code>tasks</code> within <code>TodoContext</code>.
       </p>
+      <p>
+        Additionally, there's a plugin within the <code>TodoContext</code> that
+        automatically saves your tasks to the <code>localStorage</code> whenever
+        there's a change. This ensures that your tasks can be restored upon
+        refreshing the page.
+      </p>
       {tasks.length > 0 && <p>(Click on task name to toggle status)</p>}
       {tasks.length ? (
         <ol>{tasks.map(renderTask)}</ol>

@@ -1,4 +1,14 @@
 import { IDispatch } from './i-dispatch'
+import { IPlugin } from './i-plugin'
+
+export type ICreateSliceContextOptions<
+  State extends object,
+  Dispatch extends IDispatch,
+> = {
+  state: () => State
+  dispatch: (state: State) => Dispatch
+  plugins?: IPlugin<State>[]
+}
 
 export type ISliceContext<State extends object, Dispatch extends IDispatch> = {
   /**

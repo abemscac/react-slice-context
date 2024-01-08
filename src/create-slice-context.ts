@@ -1,15 +1,11 @@
 import { createInternalContext } from './helpers/create-internal-context'
 import { createUseContextHook } from './helpers/create-use-context-hook'
 import { IDispatch } from './i-dispatch'
-import { ISelector, ISliceContext } from './i-slice-context'
-
-export type ICreateSliceContextOptions<
-  State extends object,
-  Dispatch extends IDispatch,
-> = {
-  state: () => State
-  dispatch: (state: State) => Dispatch
-}
+import {
+  ICreateSliceContextOptions,
+  ISelector,
+  ISliceContext,
+} from './i-slice-context'
 
 export const createSliceContext = <
   State extends object,
@@ -17,9 +13,7 @@ export const createSliceContext = <
 >(
   options: ICreateSliceContextOptions<State, Dispatch>
 ): ISliceContext<State, Dispatch> => {
-  const { state: stateInit, dispatch: dispatchInit } = options
-
-  const internalContext = createInternalContext(stateInit, dispatchInit)
+  const internalContext = createInternalContext(options)
 
   const useContextHook = createUseContextHook<State, Dispatch, any>(
     internalContext

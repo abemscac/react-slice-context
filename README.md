@@ -15,6 +15,7 @@
 - [API](#api)
 - [Optimization](#optimization)
 - [Dispatch](#dispatch)
+- [Plugins](#plugins)
 - [Update Context Value Outside of Components](#update-context-value-outside-of-components)
 - [Get Context Value Outside of Components](#get-context-value-outside-of-components)
 - [Common Mistakes](#common-mistakes)
@@ -120,10 +121,10 @@ npm install react-slice-context
    ### Options
 
    | Property   | Type     | Required | Description                                                                                                                                                                                                                                                                    | Default Value |
-   | ---------- | -------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------- |
-   | `state`    | function | ✅       | A function that returns the initial state for the slice context.                                                                                                                                                                                                               |               |
-   | `dispatch` | function | ✅       | A function that returns the dispatcher (a set of dispatch functions) for the slice context. The functions declared in the dispatcher are **the only ones allowed to change the context state**. For more information, please refer to the [Dispatch](#dispatch) section below. |               |
-   | `plugins`  | Array    |          | 🚧 Work in progress 🚧                                                                                                                                                                                                                                                         | `undefined`   |
+   | ---------- | -------- | :------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------- |
+   | `state`    | function |    ✅    | A function that returns the initial state for the slice context.                                                                                                                                                                                                               |               |
+   | `dispatch` | function |    ✅    | A function that returns the dispatcher (a set of dispatch functions) for the slice context. The functions declared in the dispatcher are **the only ones allowed to change the context state**. For more information, please refer to the [Dispatch](#dispatch) section below. |               |
+   | `plugins`  | Array    |    No    | An array of plugins that enables you to inject custom hooks into the context's lifecycle. Please refer to the [Plugins](#plugins) section below.                                                                                                                               | `undefined`   |
 
    ### Return Value
 
@@ -253,6 +254,34 @@ const MyComponent = () => {
   return <div>...</div>
 }
 ```
+
+## Plugins
+
+A **plugin** serves as an optional extension to the slice context, enabling you to inject custom hooks into the context's lifecycle. The plugin interface encompasses the following hooks (all hooks are optional!):
+
+| Name                 | Description                                                                               |
+| -------------------- | ----------------------------------------------------------------------------------------- |
+| `onStateInit(state)` | Called when the context state is initialized. The provided `state` is read-only.          |
+| `onChange(state)`    | Called whenever there's a change in the context state. The provided `state` is read-only. |
+
+This feature is particularly useful when you need to persist the state somewhere upon a state change, such as in `localStorage` or a database. For example:
+
+```ts
+const myContext = createSliceContext({
+  state: () => ({ ... }),
+  dispatch: () => ({ ... })
+  plugins: [
+    {
+      onChange: (state) => {
+        localStorage.setItem('SOME_KEY', JSON.stringify(state))
+      }
+    },
+    // ...other plugins
+  ]
+})
+```
+
+You can have multiple plugins within a slice context, and the hooks in these plugins are invoked in the order they are arranged within the `plugins` array.
 
 ## Update Context Value Outside of Components
 
