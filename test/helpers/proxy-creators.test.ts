@@ -53,20 +53,31 @@ describe('Proxy Creators', () => {
     })
 
     it('should trigger onChange callback whenever a change occurrs', () => {
+      let calledTimes = 0
+
       proxy.id++
-      expect(callback).toBeCalledTimes(1)
+      expect(callback).toBeCalledTimes(++calledTimes)
 
       proxy.id = 999
-      expect(callback).toBeCalledTimes(2)
+      expect(callback).toBeCalledTimes(++calledTimes)
 
       proxy.name = 'asd'
-      expect(callback).toBeCalledTimes(3)
+      expect(callback).toBeCalledTimes(++calledTimes)
 
       proxy.fruits[0].name = 'banana'
-      expect(callback).toBeCalledTimes(4)
+      expect(callback).toBeCalledTimes(++calledTimes)
 
       proxy.fruits[0].price--
-      expect(callback).toBeCalledTimes(5)
+      expect(callback).toBeCalledTimes(++calledTimes)
+
+      proxy.fruits.push({
+        name: 'cherry',
+        price: 123,
+      })
+      expect(callback).toBeCalledTimes(++calledTimes)
+
+      proxy.fruits.splice(1)
+      expect(callback).toBeCalledTimes(++calledTimes)
     })
   })
 
