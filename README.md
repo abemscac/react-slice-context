@@ -20,11 +20,11 @@
 - [Common Mistakes](#common-mistakes)
 - [Benchmark](#benchmark)
 
-## Demo and Example Projects
+## Demo and Examples
 
 - [Demo](https://abemscac.github.io/react-slice-context/)
-- [Online Example Project](https://stackblitz.com/edit/react-slice-context-example)
-- [Offline Example Project](https://github.com/abemscac/react-slice-context/tree/main/example)
+- [Online Example](https://stackblitz.com/edit/react-slice-context-example)
+- [Offline Example](https://github.com/abemscac/react-slice-context/tree/main/example)
 
 ## Requirements
 
@@ -119,11 +119,11 @@ npm install react-slice-context
 
    ### Options
 
-   | Property   | Type     | Required | Description                                                                                                                                                                                                                                                                | Default Value |
-   | ---------- | -------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- |
-   | `state`    | function | `true`   | A function that returns the initial state for the slice context.                                                                                                                                                                                                           |               |
-   | `dispatch` | function | `true`   | A function that returns the dispatcher (a set of dispatch functions) for the slice context. The functions declared in the dispatcher are the only ones allowed to change the context state. For more information, please refer to the [Dispatch](#dispatch) section below. |               |
-   | `plugins`  | Array    | `false`  | 🚧 Work in progress 🚧                                                                                                                                                                                                                                                     | `undefined`   |
+   | Property   | Type     | Required | Description                                                                                                                                                                                                                                                                    | Default Value |
+   | ---------- | -------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------- |
+   | `state`    | function | ✅       | A function that returns the initial state for the slice context.                                                                                                                                                                                                               |               |
+   | `dispatch` | function | ✅       | A function that returns the dispatcher (a set of dispatch functions) for the slice context. The functions declared in the dispatcher are **the only ones allowed to change the context state**. For more information, please refer to the [Dispatch](#dispatch) section below. |               |
+   | `plugins`  | Array    |          | 🚧 Work in progress 🚧                                                                                                                                                                                                                                                         | `undefined`   |
 
    ### Return Value
 
@@ -234,11 +234,11 @@ This ensures that changes in `pizzaContext.frozen` do not cause unnecessary re-r
 
 ## Dispatch
 
-The `dispatch` object returned by `createSliceContext(options)` is a set of dispatch functions. Only the functions declared in the dispatcher are permitted to modify the context state.
+The `dispatch` object returned by `createSliceContext(options)` is a set of dispatch functions. **Only the functions declared in the dispatcher are permitted to modify the context state.**
 
 ### State Is Read-Only
 
-**The value returned by `useContext(selector)` is read-only**. Attempting to update the context value without using the corresponding dispatch functions will trigger a warning in the console, and **no changes will be applied** to the context. Trying to execute code similar to the following example will result in a warning:
+**The values returned by `useContext(selector)` and [`getState()`](#get-context-value-outside-of-components) are read-only**. Attempting to update the context value without using the corresponding dispatch functions will trigger a warning in the console, and **no changes will be applied** to the context. Trying to execute code similar to the following example will result in a warning:
 
 ```tsx
 const MyComponent = () => {
