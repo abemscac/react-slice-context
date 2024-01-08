@@ -9,10 +9,25 @@ export type ITask = {
   done: boolean
 }
 
+const TASKS_STORAGE_KEY = 'tasks'
+
+const computeDefaultTasks = (): ITask[] => {
+  const serializedTasks = localStorage.getItem(TASKS_STORAGE_KEY)
+  if (serializedTasks) {
+    try {
+      const tasks = JSON.parse(serializedTasks)
+      return tasks
+    } catch {
+      // Do nothing here.
+    }
+  }
+  return []
+}
+
 export const { useContext: useTodoContext, dispatch: todoDispatch } =
   createSliceContext({
     state: (): ITodoState => ({
-      tasks: [],
+      tasks: computeDefaultTasks(),
     }),
     dispatch: (state) => ({
       addTask: (name: string): void => {
@@ -34,4 +49,17 @@ export const { useContext: useTodoContext, dispatch: todoDispatch } =
         state.tasks = []
       },
     }),
+    plugins: [
+      {
+        onStateInit: (state) => {
+          const { tasks } = state
+          if (tasks.length) {
+            console.log('Tasks loaded from localStorage: ', tasks)
+          }
+        },
+        onChange: (state) => {
+          localStorage.setItem(TASKS_STORAGE_KEY, JSON.stringify(state.tasks))
+        },
+      },
+    ],
   })
