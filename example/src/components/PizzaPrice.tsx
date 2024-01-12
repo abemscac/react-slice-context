@@ -14,7 +14,7 @@ export const PizzaPrice = () => {
         This component will only re-render when the <code>price</code> changes
         in <code>PizzaContext</code>.
       </p>
-      <button onClick={incrementPrice}>Increment ID</button>
+      <button onClick={incrementPrice}>Increment Price</button>
     </div>
   )
 }

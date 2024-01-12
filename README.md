@@ -8,6 +8,7 @@
 
 ## Table of Contents
 
+- [Features](#features)
 - [Demo and Examples](#demo-and-examples)
 - [Requirements](#requirements)
 - [Installation](#installation)
@@ -19,7 +20,24 @@
 - [Update Context Value Outside of Components](#update-context-value-outside-of-components)
 - [Get Context Value Outside of Components](#get-context-value-outside-of-components)
 - [Common Mistakes](#common-mistakes)
-- [Benchmark](#benchmark)
+
+## Features
+
+### No `<Provider>` Hassle
+
+Say goodbye to the `<Provider>` wrapper! Simply initialize the context, and it's ready to be used from any part of your application!
+
+### Update States in A Breeze
+
+No more action creators, actions, and reducers just to update a simple state. With React Slice Context, updating states is as straightforward as declaring functions that directly mutate the context state without worrying about reactivity. Less boilerplate, more productivity!
+
+### Effortless Nested State Updates
+
+Forget about duplicating layers of objects just to modify a single property. Thanks to the proxy-based implementation, updating objects and arrays becomes a breeze. Plus, there's no need for [Immer](https://github.com/immerjs/immer) in React Slice Context!
+
+### No Context Loss
+
+In contrast to the native React context, the context value in React Slice Context can be set up at the same level as your main application. This flexibility enables the context value to be accessed across multiple renderers within a single application!
 
 ## Demo and Examples
 
@@ -130,11 +148,11 @@ npm install react-slice-context
 
    It returns a slice context with the following properties:
 
-   | Property               | Type     | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
-   | ---------------------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-   | `useContext(selector)` | function | `useContext(selector)` is a **hook** to retrieve the state of the associated context; it can only be used within the body of a React functional component. By default, when the optional `selector` argument is not provided, `useContext()` returns the entire state, which will cause the component to re-render whenever there's a change in the context. If your component only care about specific context properties, using something like `const state = useMyContext()` may not deliver optimal performance. Check out the [Optimization](#optimization) section below for further insights. |
-   | `dispatch`             | object   | The dispatcher for the slice context. It works both inside and outside of components. See the [Dispatch](#dispatch) section below for more information.                                                                                                                                                                                                                                                                                                                                                                                                                                              |
-   | `getState()`           | function | Returns a read-only state in the slice context. This is useful for getting context state outside of components.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+   | Property               | Type     | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+   | ---------------------- | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+   | `useContext(selector)` | function | `useContext(selector)` is a **hook** to retrieve the state of the associated context; it can only be used within the body of a React functiona component. By default, when the optional `selector` argument is not provided, `useContext()` returns the entire state, which will cause the component to re-render whenever there's a change in the context. If your component only care about specific context properties, using something like `const state = useMyContext()` may not deliver optimal performance. Check out the [Optimization](#optimization) section below for further insights. |
+   | `dispatch`             | object   | The dispatcher for the slice context. It works both inside and outside of components. See the [Dispatch](#dispatch) section below for more information.                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+   | `getState()`           | function | Returns a read-only state in the slice context. This is useful for getting context state outside of components.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
 
 ## Optimization
 
@@ -356,7 +374,3 @@ const MyComponent = () => {
   return <div>...</div>
 }
 ```
-
-## Benchmark
-
-🚧 Work in progress 🚧
