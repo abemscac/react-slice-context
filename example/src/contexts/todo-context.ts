@@ -1,6 +1,8 @@
 import { createSliceContext } from '../../../src'
+import { wait } from '../utils/wait'
 
 export type ITodoState = {
+  loading: boolean
   tasks: ITask[]
 }
 
@@ -9,27 +11,33 @@ export type ITask = {
   done: boolean
 }
 
-const TASKS_STORAGE_KEY = 'tasks'
-
-const computeDefaultTasks = (): ITask[] => {
-  const serializedTasks = localStorage.getItem(TASKS_STORAGE_KEY)
-  if (serializedTasks) {
-    try {
-      const tasks = JSON.parse(serializedTasks)
-      return tasks
-    } catch {
-      // Do nothing here.
-    }
-  }
-  return []
-}
-
 export const { useContext: useTodoContext, dispatch: todoDispatch } =
   createSliceContext({
     state: (): ITodoState => ({
-      tasks: computeDefaultTasks(),
+      loading: true,
+      tasks: [],
     }),
     dispatch: (state) => ({
+      loadTasks: async () => {
+        state.loading = true
+        // Wait for 1.5 seconds to simulate network latency.
+        await wait(1500)
+        state.tasks = [
+          {
+            name: 'Very important task',
+            done: true,
+          },
+          {
+            name: 'Not that important task',
+            done: false,
+          },
+          {
+            name: 'Task',
+            done: false,
+          },
+        ]
+        state.loading = false
+      },
       addTask: (name: string): void => {
         state.tasks.push({
           name,
@@ -49,17 +57,4 @@ export const { useContext: useTodoContext, dispatch: todoDispatch } =
         state.tasks = []
       },
     }),
-    plugins: [
-      {
-        onStateInit: (state) => {
-          const { tasks } = state
-          if (tasks.length) {
-            console.log('Tasks loaded from localStorage: ', tasks)
-          }
-        },
-        onChange: (state) => {
-          localStorage.setItem(TASKS_STORAGE_KEY, JSON.stringify(state.tasks))
-        },
-      },
-    ],
   })

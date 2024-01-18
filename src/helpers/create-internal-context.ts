@@ -15,6 +15,13 @@ export const createInternalContext = <
 ): IInternalContext<State, Dispatch> => {
   const { state: stateInit, dispatch: dispatchInit, plugins } = options
 
+  /**
+   * The callbacks to be triggered whenever a dispatch function is
+   * executed and there is a change in the context state after the
+   * dispatch.
+   */
+  const listeners = new Set<OnSetCallback>()
+
   let hasChanged = false
 
   const state = stateInit()
@@ -26,6 +33,18 @@ export const createInternalContext = <
     hasChanged = true
   })
 
+  const notifyChange = (): void => {
+    // Triggers listeners to re-render components.
+    listeners.forEach((callback) => callback())
+
+    // Runs the `onChange` hook for all plugins.
+    plugins?.forEach((plugin) => {
+      plugin.onChange?.(readonlyState)
+    })
+  }
+
+  const asyncChangeDetectionState = changeDetectionProxy(state, notifyChange)
+
   /**
    * Read-only state that's exposed to the user.
    */
@@ -36,35 +55,36 @@ export const createInternalContext = <
     plugin.onStateInit?.(readonlyState)
   })
 
-  /**
-   * The callbacks to be triggered whenever a dispatch function is
-   * executed and there is a change in the context state after the
-   * dispatch.
-   */
-  const listeners = new Set<OnSetCallback>()
-
-  const sourceDispatch = dispatchInit(changeDetectionState)
+  const syncDispatch = dispatchInit(changeDetectionState)
+  const asyncDispatch = dispatchInit(asyncChangeDetectionState)
 
   /**
    * Creates a constant dispatcher and ensure it triggers listeners
    * whenever there's a change in the context state after any dispatch
    * is fired.
    */
-  const dispatch = Object.entries(sourceDispatch).reduce(
-    (result, [key, dispatchFn]) => {
-      result[key] = (...args: any[]): any => {
-        dispatchFn(...args)
-        if (hasChanged) {
-          // Triggers listeners to re-render components.
-          listeners.forEach((callback) => callback())
+  const dispatch = Object.entries(syncDispatch).reduce(
+    (result, [key, syncDispatchFn]) => {
+      const isAsync =
+        typeof syncDispatchFn === 'function' &&
+        syncDispatchFn.constructor.name === 'AsyncFunction'
 
-          // Runs the `onChange` hook for all plugins.
-          plugins?.forEach((plugin) => {
-            plugin.onChange?.(readonlyState)
-          })
+      let dispatchFn: IDispatchFn
 
-          hasChanged = false
+      if (isAsync) {
+        dispatchFn = asyncDispatch[key]
+      } else {
+        dispatchFn = syncDispatchFn
+      }
+
+      result[key] = async (...args: any[]): Promise<any> => {
+        await dispatchFn(...args)
+        // The change of async dispatch function is already notified
+        // in the change detection proxy.
+        if (!isAsync && hasChanged) {
+          notifyChange()
         }
+        hasChanged = false
       }
       return result
     },

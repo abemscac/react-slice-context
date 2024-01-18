@@ -25,6 +25,14 @@ export const PizzaFlavor = () => {
         This component will only re-render when the <code>flavor</code> changes
         in <code>PizzaContext</code>.
       </p>
+      <p>
+        Additionally, there's a plugin within the <code>PizzaContext</code> that
+        automatically saves the pizza flavor to the <code>localStorage</code>{' '}
+        whenever there's a change in <code>PizzaContext</code>.
+        <br />
+        This ensures that your pizza flavor can be restored upon refreshing the
+        page.
+      </p>
       <form onSubmit={onSubmit}>
         <input ref={input} defaultValue={flavor} />
         <button type="submit">Set Flavor</button>

@@ -5,12 +5,17 @@ export type IPizzaState = {
   flavor: string
 }
 
+const FLAVOR_KEY = 'pizzaFlavor'
+
 export const { useContext: usePizzaContext, dispatch: pizzaDispatch } =
   createSliceContext({
-    state: (): IPizzaState => ({
-      price: 10,
-      flavor: 'Pepperoni',
-    }),
+    state: (): IPizzaState => {
+      const storedFlavor = localStorage.getItem(FLAVOR_KEY)
+      return {
+        price: 10,
+        flavor: storedFlavor || 'Pepperoni',
+      }
+    },
     dispatch: (pizza) => ({
       incrementPrice: () => {
         pizza.price++
@@ -19,4 +24,11 @@ export const { useContext: usePizzaContext, dispatch: pizzaDispatch } =
         pizza.flavor = flavor
       },
     }),
+    plugins: [
+      {
+        onChange: (state) => {
+          localStorage.setItem(FLAVOR_KEY, state.flavor)
+        },
+      },
+    ],
   })

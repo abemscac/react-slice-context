@@ -15,10 +15,12 @@ export const changeDetectionProxy = <T extends object>(
       }
     },
     set: (target, key, newValue, receiver) => {
-      if (target[key] !== newValue) {
+      const oldValue = target[key]
+      const success = Reflect.set(target, key, newValue, receiver)
+      if (success && oldValue !== newValue) {
         onChange()
       }
-      return Reflect.set(target, key, newValue, receiver)
+      return success
     },
   }
 
