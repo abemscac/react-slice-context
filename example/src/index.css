@@ -16,6 +16,10 @@
   text-decoration: none;
 }
 
+.loading {
+  color: gray;
+}
+
 .no-tasks {
   color: gray;
 }

@@ -255,7 +255,7 @@ This ensures that changes in `pizzaContext.frozen` do not cause unnecessary re-r
 
 The `dispatch` object returned by `createSliceContext(options)` is a set of dispatch functions. **Only the functions declared in the dispatcher are permitted to modify the context state.**
 
-### State Is Read-Only
+### States Outside of `Dispatch` Are Read-Only
 
 **The values returned by `useContext(selector)` and [`getState()`](#get-context-value-outside-of-components) are read-only**. Attempting to update the context value without using the corresponding dispatch functions will trigger a warning in the console, and **no changes will be applied** to the context. Trying to execute code similar to the following example will result in a warning:
 
@@ -271,6 +271,24 @@ const MyComponent = () => {
 
   return <div>...</div>
 }
+```
+
+### Asynchronous Dispatch
+
+Asynchronous dispatch functions are supported in React Slice Context. If your dispatch function involves any asynchronous operations, such as calling an API, make sure to use the **`async`** keyword to ensure that state are updated correctly within an asynchronous function. For example:
+
+```ts
+const context = createSliceContext({
+  // ...
+  dispatch: (state) => {
+    // The `async` here is necessary!
+    loadData: async () => {
+      state.loading = true
+      state.data = await callAPI()
+      state.loading = false
+    }
+  },
+})
 ```
 
 ## Plugins
